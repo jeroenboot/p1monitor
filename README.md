@@ -22,13 +22,13 @@ De P1 poort is een seriele poort op je digitale elektra meter waarin je een RJ-1
 ## Verkort stappenplan#
 
 1.	Download raspbian (Debian 10/Buster voor raspberry)  
-a.	https://downloads.raspberrypi.org/raspbian_lite_latest  
+https://downloads.raspberrypi.org/raspbian_lite_latest  
 2.	Schrijf image naar sdcard  
-a.	Ik gebruik hier BalenaEtcher voor; https://www.balena.io/etcher/  
+Ik gebruik hier BalenaEtcher voor; https://www.balena.io/etcher/  
 3.	Plaats een leeg bestand, genaamd ssh, in de boot partitie van het geschreven image  
 4.	First boot raspbian  
-a.	SSH inloggen en testen (username pi, passwords raspberry)  
-b.	Installeer minicom   
+SSH inloggen en testen (username pi, passwords raspberry)  
+Installeer minicom   
 ```
 sudo apt-get install -y minicom cu
 ```
@@ -42,8 +42,8 @@ sudo apt-get install -y minicom cu
 6*  headers en kabels
 1*  RJ11 kabeltje
 ```
-a.  **Voor voor ESMRv5 (Iskra/AM550) heb ik een 4.7K tussen P2 (RTS) en P5 (Data) nodig**  
-b.  *Via AliExpress of Conrad kan je simpel alle onderdelen bestellen*
+**Voor voor ESMRv5 (Iskra/AM550) heb ik een 4.7K tussen P2 (RTS) en P5 (Data) nodig**  
+*Via AliExpress of Conrad kan je simpel alle onderdelen bestellen*
 
 ![image](https://user-images.githubusercontent.com/23233001/66209805-7dc5d980-e6b8-11e9-9a4c-1ebaeb7c9778.png)
 
@@ -83,13 +83,14 @@ sudo cu -l /dev/ttyAMA0 -s 115200 --parity=none
 ```
 
 
-8. Configureer de raspberry, inverter en serial werkt :-)
-a.  Software update  
+8. Configureer de raspberry, inverter en serial werkt :-)  
+Software update  
 ```
 $sudo apt-get update
 $sudo apt-get upgrade -y
 ```
-b.  filesystem (TMPFS) om de SDCARD te ontlasten  
+
+Filesystem (TMPFS) om de SDCARD te ontlasten  
 ```
 $sudo vi /etc/fstab
 
@@ -98,7 +99,8 @@ tmpfs    /var/tmp           tmpfs   defaults,noatime,nosuid,size=30m            
 tmpfs    /var/log           tmpfs   defaults,noatime,nosuid,mode=0755,size=30m          0 0
 tmpfs    /var/spool/mqueue  tmpfs   defaults,noatime,nosuid,mode=0700,gid=1001,size=30m 0 0
 ```
-c.  Aanpassen Raspberry configuratie  
+
+Aanpassen Raspberry configuratie  
 ```
 $sudo raspi-config
 -	Update utility  
@@ -108,13 +110,13 @@ $sudo raspi-config
 -	Password (pi user)
 ```
 
-d.  Disable swap om de SDCARD te ontlasten  
+Disable swap om de SDCARD te ontlasten  
 ```
 $sudo swapoff --all
 $sudo atp-get remove dphys-swapfile
 ```
 
-e.  Unattended upgrades (en update patterns)  
+Unattended upgrades (en update patterns)  
 ```
 $sudo apt-get install unattended-upgrades
 $sudo nano /etc/apt/apt.conf.d/50unattended-upgrades
@@ -147,7 +149,7 @@ Unattended-Upgrade::Origins-Pattern {
 ```
 
 f.  Aanpassen auto-upgrades  
-*Vervang voor:*
+*Vervang bestaande configuratie voor:*
 ```
 $sudo nano /etc/apt/apt.conf.d/20auto-upgrades
 ```
@@ -166,14 +168,14 @@ $sudo dpkg-reconfigure --priority=low unattended-upgrades
 ```
 
 9.  Docker installatie op PI  
-a.  Installatie Docker-runtime en toevoegen van de pi user als docker-gebruiker  
+Installatie Docker-runtime en toevoegen van de pi user als docker-gebruiker  
 ```
 $curl -fsSL https://get.docker.com -o get-docker.sh
 $sudo sh get-docker.sh
 $sudo usermod -aG docker pi
 ```
 
-b. persistent storage/volume(s) voor database en grafieken  
+Persistent storage/volume(s) voor database en grafieken  
 *Waarschijnlijk moet je opnieuw inloggen om de toegevoegde groep (docker) te kunnen gebruiken.*
 ```
 $docker volume create grafana-volume
@@ -240,9 +242,10 @@ sudo pip install datetime
 
 13. P1 naar influxDB script  
 *Tip plaats alle P1 bestanden in een (sub)directory, in mijn voorbeeld heb ik 'p1' hiervoor gebruikt*  
-a.  P1 script aanpassen en in subdirectory zetten (plus ```chmod a+x /home/pi/p1/p1influxdb.py```)  
+
+P1 script aanpassen en in subdirectory zetten (plus ```chmod a+x /home/pi/p1/p1influxdb.py```)  
 https://github.com/jeroenboot/p1monitor/blob/master/p1influxdb.py  
-b. Aanmaken van een crontab, iedere 10 seconden leest deze de P1 poort uitlezen  
+Aanmaken van een crontab, iedere 10 seconden leest deze de P1 poort uitlezen  
 ```
 $crontab -e
 
