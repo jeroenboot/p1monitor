@@ -59,17 +59,22 @@ b.  Via AliExpress kan je simpel alle onderdelen bestellen
 ```
 
 
-8.  Configureer de raspberry
+8.  Configureer de raspberry\
 a.  Software update
+```
 $sudo apt-get update
 $sudo apt-get upgrade -y
-b.  filesystem (TMPFS) om de SDCARD te ontlasten
+```
+b.  filesystem (TMPFS) om de SDCARD te ontlasten\
+```
 $sudo vi /etc/fstab
-(...)
+
+
 tmpfs    /tmp               tmpfs   defaults,noatime,nosuid,size=30m                    0 0
 tmpfs    /var/tmp           tmpfs   defaults,noatime,nosuid,size=30m                    0 0
 tmpfs    /var/log           tmpfs   defaults,noatime,nosuid,mode=0755,size=30m          0 0
 tmpfs    /var/spool/mqueue  tmpfs   defaults,noatime,nosuid,mode=0700,gid=1001,size=30m 0 0
+```
 c.  Aanpassen Raspberry configuratie
 $sudo raspi-config
 -	Update utility
