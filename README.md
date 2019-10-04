@@ -83,7 +83,7 @@ sudo cu -l /dev/ttyAMA0 -s 115200 --parity=none
 ```
 
 
-8.  Configureer de raspberry  
+8. Configureer de raspberry, inverter en serial werkt :-)
 a.  Software update  
 ```
 $sudo apt-get update
