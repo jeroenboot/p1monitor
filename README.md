@@ -35,8 +35,15 @@ sudo apt-get install -y minicom cu
 5.	Activeer serial connections (disable serial login, enable hardware)  
 ![image](https://user-images.githubusercontent.com/23233001/66210265-b1edca00-e6b9-11e9-9fef-1d0524bfc3e8.png)
 6.	Soldeer inverter en sluit aan de Raspberry (zie onderstaand schema)  
-a.  Voor voor ESMRv5 (Iskra/AM550) heb ik een 4.7K tussen P2 (RTS) en P5 (Data) nodig  
-b.  *Via AliExpress kan je simpel alle onderdelen bestellen*
+```
+2*  10K weerstand
+1*  1K weerstand
+1*  transistor (bc547)
+6*  headers en kabels
+1*  RJ11 kabeltje
+```
+a.  **Voor voor ESMRv5 (Iskra/AM550) heb ik een 4.7K tussen P2 (RTS) en P5 (Data) nodig**  
+b.  *Via AliExpress of Conrad kan je simpel alle onderdelen bestellen*
 
 ![image](https://user-images.githubusercontent.com/23233001/66209805-7dc5d980-e6b8-11e9-9a4c-1ebaeb7c9778.png)
 
@@ -223,7 +230,7 @@ create database "p1data"
 
 
 12. Python  
-*Python wordt gebruikt om daadwerkelijk de data van de P1 naar de influxdb te sturen. Enkele dependancies moeten vervult worden*
+*Python wordt gebruikt om daadwerkelijk de data van de P1 naar de influxdb te sturen. Enkele dependancies moeten vervult worden*  
 *todo; dit in een docker/microservice plaatsen*
 ```
 sudo apt-get install python-pip
@@ -232,11 +239,14 @@ sudo pip install datetime
 ```
 
 13. P1 naar influxDB script  
-*Tip plaats alle P1 bestanden in een (sub)directory, in mijn voorbeeld heb ik 'p1' hiervoor gebruikt*
+*Tip plaats alle P1 bestanden in een (sub)directory, in mijn voorbeeld heb ik 'p1' hiervoor gebruikt*  
 a.  P1 script aanpassen en in subdirectory zetten (plus ```chmod a+x /home/pi/p1/p1influxdb.py```)  
 https://github.com/jeroenboot/p1monitor/blob/master/p1influxdb.py  
 b. Aanmaken van een crontab, iedere 10 seconden leest deze de P1 poort uitlezen  
 ```
+$crontab -e
+
+<...>
 * * * * * /home/pi/p1/p1influxdb.py >/dev/null 2&1
 * * * * * ( sleep 10 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
 * * * * * ( sleep 20 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
