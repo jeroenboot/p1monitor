@@ -1,7 +1,7 @@
 <img width="1792" alt="Schermafbeelding 2019-10-04 om 13 53 16" src="https://user-images.githubusercontent.com/23233001/66209640-13ad3480-e6b8-11e9-91cb-a23270b1c215.png">
 
 
-#Inleiding#
+# Inleiding
 
 Deze howto beschrijft hoe je via een raspberrypi een (slimme) elektra en gasmeter kan uitlezen over een P1 poort en deze gegevens weergeven in mooie grafieken. Om het interessant te maken worden alle processen in (micro)services geplaatst, welke op het Docker runtime komen te draaien.
 
@@ -9,14 +9,14 @@ Het publiek is voor beginners, met een interesse in Dockers, Python, Grafana, en
 
 
 
-#Wat is een P1 poort#
+# Wat is een P1 poort
 
 De P1 poort is een seriele poort op je digitale elektra meter waarin je een RJ-11 (Registered Jack) stekkertje kan steken (bekend van de telefoonaansluitingen) om zo de meterstanden en het verbruik uit te lezen.
 
 
 
 
-#verkort stappenplan#
+# verkort stappenplan#
 
 1.	Download raspbian (Debian 10/Buster voor raspberry)  
 a.	https://downloads.raspberrypi.org/raspbian_lite_latest  
