@@ -1,3 +1,6 @@
+<img width="1792" alt="Schermafbeelding 2019-10-04 om 13 53 16" src="https://user-images.githubusercontent.com/23233001/66209640-13ad3480-e6b8-11e9-91cb-a23270b1c215.png">
+
+
 Inleiding;
 
 Deze howto beschrijft hoe je via een raspberrypi een (slimme) elektra en gasmeter kan uitlezen over een P1 poort en deze gegevens weergeven in mooie grafieken. Om het interessant te maken worden alle processen in (micro)services geplaatst, welke op het Docker runtime komen te draaien.
@@ -20,14 +23,17 @@ a.	https://downloads.raspberrypi.org/raspbian_lite_latest
 2.	Schrijf image naar sdcard\
 a.	Ik gebruik hier BalenaEtcher voor; https://www.balena.io/etcher/
 3.	Plaats een leeg bestand, genaamd ssh, in de boot partitie van het geschreven image
-4.	First boot raspbian
-a.	SSH inloggen en testen (username pi, passwords raspberry)
+4.	First boot raspbian\
+a.	SSH inloggen en testen (username pi, passwords raspberry)\
 b.	Installeer minicom sudo apt-get install -y minicom cu
 5.	Activeer serial connections (disable serial login, enable hardware)
-6.	Soldeer inverter en sluit aan de Raspberry (zie onderstaand schema)
-a.  Voor voor ESMRv5 (Iskra/AM550) heb ik een 4.7K tussen P2 (RTS) en P5 (Data) nodig.
-b.  Via AliExpress kan je simpel alle onderdelen bestellen
-7.	Test werking; sudo cu -l /dev/ttyAMA0 -s 115200 --parity=none
+![image](https://user-images.githubusercontent.com/23233001/66210265-b1edca00-e6b9-11e9-9fef-1d0524bfc3e8.png)
+6.	Soldeer inverter en sluit aan de Raspberry (zie onderstaand schema)\
+a.  Voor voor ESMRv5 (Iskra/AM550) heb ik een 4.7K tussen P2 (RTS) en P5 (Data) nodig\
+b.  Via AliExpress kan je simpel alle onderdelen bestellen\
+![image](https://user-images.githubusercontent.com/23233001/66209805-7dc5d980-e6b8-11e9-9a4c-1ebaeb7c9778.png)
+7.	Test werking\
+a.  sudo cu -l /dev/ttyAMA0 -s 115200 --parity=none
 <**Daar komen de berichten (telegrams):**>
 ```
 /ISK5\2M550E-1012
@@ -65,10 +71,9 @@ a.  Software update
 $sudo apt-get update
 $sudo apt-get upgrade -y
 ```
-b.  filesystem (TMPFS) om de SDCARD te ontlasten\
+b.  filesystem (TMPFS) om de SDCARD te ontlasten
 ```
 $sudo vi /etc/fstab
-
 
 tmpfs    /tmp               tmpfs   defaults,noatime,nosuid,size=30m                    0 0
 tmpfs    /var/tmp           tmpfs   defaults,noatime,nosuid,size=30m                    0 0
@@ -82,14 +87,17 @@ $sudo raspi-config
 -	Hostname
 -	Expand memory/disk
 -	Password (pi user)
+
 d.  Disable swap om de SDCARD te ontlasten
+```
 $sudo swapoff --all
 $sudo atp-get remove dphys-swapfile
+```
+
 e.  Unattended upgrades (en update patterns)
 ```
 $sudo apt-get install unattended-upgrades
 $sudo nano /etc/apt/apt.conf.d/50unattended-upgrades
-
 
 
 Unattended-Upgrade::Origins-Pattern {
@@ -103,8 +111,8 @@ Unattended-Upgrade::Origins-Pattern {
         "origin=Debian,codename=${distro_codename},label=Debian";
         "origin=Debian,codename=${distro_codename},label=Debian-Security";
 
-        "origin=Raspbian,codename=${distro_codename},label=Raspbian";
-        "origin=Raspberry Pi Foundation,codename=${distro_codename},label=Raspberry Pi Foundation";
+        ****"origin=Raspbian,codename=${distro_codename},label=Raspbian";
+        "origin=Raspberry Pi Foundation,codename=${distro_codename},label=Raspberry Pi Foundation";****
 
 
         // Archive or Suite based matching:
@@ -118,8 +126,8 @@ Unattended-Upgrade::Origins-Pattern {
 };
 ```
 
-f.  Aanpassen auto-upgrades
-<**Vervang voor:**>
+f.  Aanpassen auto-upgrades\
+**Vervang voor:**
 ```
 $sudo nano /etc/apt/apt.conf.d/20auto-upgrades
 ```
@@ -141,7 +149,7 @@ $sudo dpkg-reconfigure --priority=low unattended-upgrades
 
 
 
-
+<br>
 9.  Docker installatie op PI
 a.  Installatie Docker-runtime en toevoegen van de pi user als docker-gebruiker
 ```
@@ -166,7 +174,7 @@ docker run \
  --name=grafana \
  --volume=grafana-volume:/var/lib/grafana \
  grafana/grafana
-```
+```  
 
 ![image](https://user-images.githubusercontent.com/23233001/66211633-b9fb3900-e6bc-11e9-8cb8-47e4ad32d6cf.png)
 <**Eventueel de logs bekijken tijdens het opstarten**>
@@ -176,8 +184,8 @@ docker logs grafana
 
 
 
-11. InfluxDB
-<**Super simpel met Docker**>
+11. InfluxDB\
+**Super simpel met Docker**
 
 ```
 docker run -p 8086:8086 \
@@ -192,7 +200,7 @@ docker run -p 8086:8086 \
       -v influxdb-volume:/var/lib/influxdb \
       influxdb:latest
 ```
-<**Eventueel de logs bekijken tijdens het opstarten**>
+**Eventueel de logs bekijken tijdens het opstarten**
 ```
 docker logs influxdb
 ```
@@ -233,18 +241,3 @@ b. Aanmaken van een crontab, iedere 10 seconden leest deze de P1 poort uitlezen
 
 14. influxDB koppelen aan Grafana
 ![image](https://user-images.githubusercontent.com/23233001/66212160-b1573280-e6bd-11e9-9299-b715d553c538.png)
-
-
-
-
-
-
-
-
-
-
-![image](https://user-images.githubusercontent.com/23233001/66209805-7dc5d980-e6b8-11e9-9a4c-1ebaeb7c9778.png)
-
-<img width="1792" alt="Schermafbeelding 2019-10-04 om 13 53 16" src="https://user-images.githubusercontent.com/23233001/66209640-13ad3480-e6b8-11e9-91cb-a23270b1c215.png">
-
-![image](https://user-images.githubusercontent.com/23233001/66210265-b1edca00-e6b9-11e9-9fef-1d0524bfc3e8.png)
