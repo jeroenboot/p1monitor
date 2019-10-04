@@ -262,4 +262,11 @@ $crontab -e
 ![image](https://user-images.githubusercontent.com/23233001/66212160-b1573280-e6bd-11e9-9299-b715d553c538.png)  
 
 
+15. Dashboard inladen
+https://github.com/jeroenboot/p1monitor/blob/master/dashboard.json
+
+Via: **Dashboards -> Manage -> Import -> json file**
+
+
 15. Alle informatie is nu gekoppeld :-)
+*Eventuele aanpassingen in scripts en databases aanpassen in de grafieken*
