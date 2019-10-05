@@ -32,10 +32,10 @@ Installeer minicom
 ```
 sudo apt-get install -y minicom cu
 ```
-**5.	Activeer serial connections (disable serial login, enable hardware)** . 
+**5.	Activeer serial connections (disable serial login, enable hardware)** .
 ![serieel](https://user-images.githubusercontent.com/23233001/66252523-1d3ca800-e75d-11e9-8f6d-4b8d118a86aa.png)
 
-**6.	Soldeer inverter en sluit aan de Raspberry (zie onderstaand schema)** . 
+**6.	Soldeer inverter en sluit aan de Raspberry (zie onderstaand schema)** .
 ```
 2*  10K weerstand
 1*  1K weerstand
@@ -194,7 +194,8 @@ $docker volume create influxdb-volume
 ```
 docker run \
  --restart unless-stopped \
- --detach --net=host \
+ --detach \
+ --net=host \
  --name=grafana \
  --volume=grafana-volume:/var/lib/grafana \
  grafana/grafana
@@ -236,42 +237,17 @@ create database "p1data"
 ```
 
 
-**12. Python**  
+**12. Python container**  
 *Python wordt gebruikt om daadwerkelijk de data van de P1 naar de influxdb te sturen.  
-Enkele dependancies moeten vervuld worden.  
-**to do:** Dit in een docker/microservice plaatsen, o.b.v. Telegraf*
-```
-sudo apt-get install python-pip
-pip install pyserial
-sudo pip install datetime
-```
+Deze informatie draait in een (micro)service, zie: https://github.com/jeroenboot/p1monitor/blob/master/p1serial_docker/README.md*
 
-**13. P1 naar influxDB script**  
-*Tip plaats alle P1 bestanden in een (sub)directory, in mijn voorbeeld heb ik 'p1' hiervoor gebruikt*  
+**13. influxDB koppelen aan Grafana**  
+![influxdb](https://user-images.githubusercontent.com/23233001/66252526-2cbbf100-e75d-11e9-95ce-bc2cb55117ac.png)
 
-P1 script aanpassen en in subdirectory zetten (plus ```chmod a+x /home/pi/p1/p1influxdb.py```)  
-https://github.com/jeroenboot/p1monitor/blob/master/p1influxdb.py  
-Aanmaken van een crontab, iedere 10 seconden leest deze de P1 poort uitlezen  
-```
-$crontab -e
-
-<...>
-* * * * * /home/pi/p1/p1influxdb.py >/dev/null 2&1
-* * * * * ( sleep 10 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
-* * * * * ( sleep 20 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
-* * * * * ( sleep 30 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
-* * * * * ( sleep 40 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
-* * * * * ( sleep 50 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
-```
-
-**14. influxDB koppelen aan Grafana**  
-![influxdb](https://user-images.githubusercontent.com/23233001/66252526-2cbbf100-e75d-11e9-95ce-bc2cb55117ac.png) 
-
-
-**15. Dashboard inladen**  
+**14. Dashboard inladen**  
 https://github.com/jeroenboot/p1monitor/blob/master/dashboard.json
 
 Via: **Dashboards -> Manage -> Import -> json file**  
 
-**16. Alle informatie is nu gekoppeld :-)**  
+**15. Alle informatie is nu gekoppeld :-)**  
 *Eventuele aanpassingen in scripts en databases aanpassen in de grafieken*
