@@ -5,7 +5,7 @@ docker build -t jeroenboot/p1serial .
 ```
 
 # run
-Run on the same host (network = host)  
+Run on the same host (network = host) as influxDB    
 
 ```
 docker run \
