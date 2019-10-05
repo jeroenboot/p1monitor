@@ -1,0 +1,12 @@
+1. create Github repository
+2. copy the link to the repository
+3. cmd+shift+p
+4. search for github:clone
+5. paste github repository link
+6. Test (create new file), green indicates new file in git repository
+7. authorize Atom for Github (with token), via https://github.atom.io/login
+8. Login via Github tab, using token
+9a. push to repository (stage)
+9b. push to repository (commit)
+9c. push to repository (push)
+10. validate (via github's website)
