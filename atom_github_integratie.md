@@ -4,7 +4,7 @@
 2. copy the link to the repository  
 <img width="625" alt="atom_clone" src="https://user-images.githubusercontent.com/23233001/66253124-c5556f80-e763-11e9-93ce-76f609175928.png">
 
-3. cmd+shift+p and search for github:clone  
+3. **In Atom:** cmd+shift+p and search for github:clone  
 <img width="1578" alt="atom_github_clone" src="https://user-images.githubusercontent.com/23233001/66253127-c5ee0600-e763-11e9-832e-cd9b441c7f42.png">
 
 4. paste github repository link  
