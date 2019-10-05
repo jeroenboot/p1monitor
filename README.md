@@ -26,14 +26,14 @@ https://downloads.raspberrypi.org/raspbian_lite_latest
 **2.	Schrijf image naar sdcard**  
 Ik gebruik hier BalenaEtcher voor; https://www.balena.io/etcher/  
 **3.	Plaats een leeg bestand, genaamd ssh, in de boot partitie van het geschreven image**  
-**4.	First boot raspbian**  
+**4.	First boot raspbian en test seriele verbinding**  
 SSH inloggen en testen (username pi, passwords raspberry)  
 Installeer minicom   
 ```
 sudo apt-get install -y minicom cu
 ```
 **5.	Activeer serial connections (disable serial login, enable hardware)** . 
-![image](https://user-images.githubusercontent.com/23233001/66210265-b1edca00-e6b9-11e9-9fef-1d0524bfc3e8.png)
+![serieel](https://user-images.githubusercontent.com/23233001/66252523-1d3ca800-e75d-11e9-8f6d-4b8d118a86aa.png)
 
 **6.	Soldeer inverter en sluit aan de Raspberry (zie onderstaand schema)** . 
 ```
@@ -45,7 +45,7 @@ sudo apt-get install -y minicom cu
 ```
 **Voor voor ESMRv5 (Iskra/AM550) heb ik een 4.7K tussen P2 (RTS) en P5 (Data) nodig**  
 *Via AliExpress of Conrad kan je simpel alle onderdelen bestellen*
-![image](https://user-images.githubusercontent.com/23233001/66209805-7dc5d980-e6b8-11e9-9a4c-1ebaeb7c9778.png)
+![schema](https://user-images.githubusercontent.com/23233001/66252535-452c0b80-e75d-11e9-8892-b60d483f41c2.png)
 
 **7.  Test werking**  
 ```
@@ -83,7 +83,7 @@ sudo cu -l /dev/ttyAMA0 -s 115200 --parity=none
 ```
 
 
-**8. Configureer de raspberry, inverter en serial werkt :-)**  
+**8. Configureer de raspberry, want de seriele verbinding werkt naar behoren :-)**  
 Software update  
 ```
 $sudo apt-get update
@@ -185,7 +185,8 @@ $docker volume create influxdb-volume
 
 
 **10. Grafana**  
-*Super simpel met Docker*
+*Super simpel met Docker*  
+*Eventueel kan je hier ook een Docker compose voor gebruiken om meerdere containters tegelijk op te starten*
 ```
 docker run \
  --restart unless-stopped \
@@ -194,9 +195,9 @@ docker run \
  --volume=grafana-volume:/var/lib/grafana \
  grafana/grafana
 ```  
-*inloggen kan nu naar http://$dockerip:3000*
+*inloggen kan nu naar http://$raspberryip:3000 met: admin:admin*
 
-![image](https://user-images.githubusercontent.com/23233001/66211633-b9fb3900-e6bc-11e9-8cb8-47e4ad32d6cf.png)  
+![grafana](https://user-images.githubusercontent.com/23233001/66252530-304f7800-e75d-11e9-8d16-fde53f2429fa.png)
 *Eventueel de logs bekijken tijdens het opstarten*
 ```
 docker logs grafana
@@ -230,8 +231,9 @@ create database "p1data"
 
 
 **12. Python**  
-*Python wordt gebruikt om daadwerkelijk de data van de P1 naar de influxdb te sturen. Enkele dependancies moeten vervult worden*  
-*todo; dit in een docker/microservice plaatsen*
+*Python wordt gebruikt om daadwerkelijk de data van de P1 naar de influxdb te sturen.  
+Enkele dependancies moeten vervuld worden.  
+**to do:** Dit in een docker/microservice plaatsen*
 ```
 sudo apt-get install python-pip
 pip install pyserial
@@ -257,7 +259,7 @@ $crontab -e
 ```
 
 **14. influxDB koppelen aan Grafana**  
-![image](https://user-images.githubusercontent.com/23233001/66212160-b1573280-e6bd-11e9-9299-b715d553c538.png)  
+![influxdb](https://user-images.githubusercontent.com/23233001/66252526-2cbbf100-e75d-11e9-95ce-bc2cb55117ac.png) 
 
 
 **15. Dashboard inladen**  
