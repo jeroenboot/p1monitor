@@ -48,6 +48,8 @@ sudo apt-get install -y minicom cu
 ![schema](https://user-images.githubusercontent.com/23233001/66252535-452c0b80-e75d-11e9-8892-b60d483f41c2.png)
 
 **7.  Test werking**  
+*Op http://domoticx.com/p1-poort-slimme-meter-hardware/ staan de instellingen voor alle meters*
+
 ```
 sudo cu -l /dev/ttyAMA0 -s 115200 --parity=none
 ```
@@ -185,6 +187,8 @@ $docker volume create influxdb-volume
 
 
 **10. Grafana**  
+***The open observability platform, Grafana is the open source analytics & monitoring solution for every database***
+
 *Super simpel met Docker*  
 *Eventueel kan je hier ook een Docker compose voor gebruiken om meerdere containters tegelijk op te starten*
 ```
@@ -204,6 +208,8 @@ docker logs grafana
 ```
 
 **11. InfluxDB**  
+***InfluxDB is an open-source time series database (TSDB) developed by InfluxData. It is written in Go and optimized for fast, high-availability storage and retrieval of time series data in fields such as operations monitoring, application metrics, Internet of Things sensor data, and real-time analytics.***  
+
 *Super simpel met Docker*
 ```
 docker run -p 8086:8086 \
@@ -233,7 +239,7 @@ create database "p1data"
 **12. Python**  
 *Python wordt gebruikt om daadwerkelijk de data van de P1 naar de influxdb te sturen.  
 Enkele dependancies moeten vervuld worden.  
-**to do:** Dit in een docker/microservice plaatsen*
+**to do:** Dit in een docker/microservice plaatsen, o.b.v. Telegraf*
 ```
 sudo apt-get install python-pip
 pip install pyserial
