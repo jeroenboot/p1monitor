@@ -14,27 +14,28 @@ In 15 "simpele" stappen heb je een raspberry waarin alle P1 informatie wordt opg
 
 ## Wat is een P1 poort
 
-De P1 poort is een seriele poort op je digitale elektra meter waarin je een RJ-11 (Registered Jack) stekkertje kan steken (bekend van de telefoonaansluitingen) om zo de meterstanden en het verbruik uit te lezen.
+De P1 poort is een seriele poort op je digitale elektra meter waarin je een RJ-11 (Registered Jack) stekkertje kan steken (bekend van de telefoonaansluitingen) om zo de meterstanden en het verbruik uit te lezen. Het serieel signaal is echter niet direct bruikbaar. Eerst zal het signaal geïnverteerd moeten worden.
 
 
 
 
-## Verkort stappenplan#
+## Stappenplan
 
-1.	Download raspbian (Debian 10/Buster voor raspberry)  
+**1.	Download raspbian (Debian 10/Buster voor raspberry)**  
 https://downloads.raspberrypi.org/raspbian_lite_latest  
-2.	Schrijf image naar sdcard  
+**2.	Schrijf image naar sdcard**  
 Ik gebruik hier BalenaEtcher voor; https://www.balena.io/etcher/  
-3.	Plaats een leeg bestand, genaamd ssh, in de boot partitie van het geschreven image  
-4.	First boot raspbian  
+**3.	Plaats een leeg bestand, genaamd ssh, in de boot partitie van het geschreven image**  
+**4.	First boot raspbian**  
 SSH inloggen en testen (username pi, passwords raspberry)  
 Installeer minicom   
 ```
 sudo apt-get install -y minicom cu
 ```
-5.	Activeer serial connections (disable serial login, enable hardware)  
+**5.	Activeer serial connections (disable serial login, enable hardware)** . 
 ![image](https://user-images.githubusercontent.com/23233001/66210265-b1edca00-e6b9-11e9-9fef-1d0524bfc3e8.png)
-6.	Soldeer inverter en sluit aan de Raspberry (zie onderstaand schema)  
+
+**6.	Soldeer inverter en sluit aan de Raspberry (zie onderstaand schema)** . 
 ```
 2*  10K weerstand
 1*  1K weerstand
@@ -44,10 +45,9 @@ sudo apt-get install -y minicom cu
 ```
 **Voor voor ESMRv5 (Iskra/AM550) heb ik een 4.7K tussen P2 (RTS) en P5 (Data) nodig**  
 *Via AliExpress of Conrad kan je simpel alle onderdelen bestellen*
-
 ![image](https://user-images.githubusercontent.com/23233001/66209805-7dc5d980-e6b8-11e9-9a4c-1ebaeb7c9778.png)
 
-7.	Test werking  
+**7.  Test werking**  
 ```
 sudo cu -l /dev/ttyAMA0 -s 115200 --parity=none
 ```
@@ -83,7 +83,7 @@ sudo cu -l /dev/ttyAMA0 -s 115200 --parity=none
 ```
 
 
-8. Configureer de raspberry, inverter en serial werkt :-)  
+**8. Configureer de raspberry, inverter en serial werkt :-)**  
 Software update  
 ```
 $sudo apt-get update
@@ -167,8 +167,8 @@ To enable unattended updates type:
 $sudo dpkg-reconfigure --priority=low unattended-upgrades
 ```
 
-9.  Docker installatie op PI  
-Installatie Docker-runtime en toevoegen van de pi user als docker-gebruiker  
+**9.  Docker installatie op PI**  
+Installatie Docker-runtime en toevoegen van de pi user als docker-gebruiker.
 ```
 $curl -fsSL https://get.docker.com -o get-docker.sh
 $sudo sh get-docker.sh
@@ -184,7 +184,7 @@ $docker volume create influxdb-volume
 
 
 
-10. grafana
+**10. Grafana**  
 *Super simpel met Docker*
 ```
 docker run \
@@ -202,9 +202,7 @@ docker run \
 docker logs grafana
 ```
 
-
-
-11. InfluxDB  
+**11. InfluxDB**  
 *Super simpel met Docker*
 ```
 docker run -p 8086:8086 \
@@ -231,7 +229,7 @@ create database "p1data"
 ```
 
 
-12. Python  
+**12. Python**  
 *Python wordt gebruikt om daadwerkelijk de data van de P1 naar de influxdb te sturen. Enkele dependancies moeten vervult worden*  
 *todo; dit in een docker/microservice plaatsen*
 ```
@@ -240,7 +238,7 @@ pip install pyserial
 sudo pip install datetime
 ```
 
-13. P1 naar influxDB script  
+**13. P1 naar influxDB script**  
 *Tip plaats alle P1 bestanden in een (sub)directory, in mijn voorbeeld heb ik 'p1' hiervoor gebruikt*  
 
 P1 script aanpassen en in subdirectory zetten (plus ```chmod a+x /home/pi/p1/p1influxdb.py```)  
@@ -258,15 +256,14 @@ $crontab -e
 * * * * * ( sleep 50 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
 ```
 
-14. influxDB koppelen aan Grafana  
+**14. influxDB koppelen aan Grafana**  
 ![image](https://user-images.githubusercontent.com/23233001/66212160-b1573280-e6bd-11e9-9299-b715d553c538.png)  
 
 
-15. Dashboard inladen
+**15. Dashboard inladen**  
 https://github.com/jeroenboot/p1monitor/blob/master/dashboard.json
 
-Via: **Dashboards -> Manage -> Import -> json file**
+Via: **Dashboards -> Manage -> Import -> json file**  
 
-
-15. Alle informatie is nu gekoppeld :-)
+**16. Alle informatie is nu gekoppeld :-)**  
 *Eventuele aanpassingen in scripts en databases aanpassen in de grafieken*
