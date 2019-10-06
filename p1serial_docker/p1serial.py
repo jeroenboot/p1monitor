@@ -108,5 +108,19 @@ while True:
 
     # Send the JSON data to InfluxDB
     client.write_points(data)
-    #print(data)
+    #print(data) to logs (docker logs $containername)
+    print(data)
+
+    #reset all variables
+    del dalverbruik
+    del piekverbruik
+    del totaalverbruik
+    del dalterug
+    del piekterug
+    del vermogenaf
+    del vermogenterug
+    del spanning
+    del gas
+
+    # wait interval
     time.sleep(interval)
