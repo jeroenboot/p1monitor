@@ -86,10 +86,11 @@ sudo cu -l /dev/ttyAMA0 -s 115200 --parity=none
 
 
 **8. Configureer de raspberry, want de seriele verbinding werkt naar behoren :-)**  
-Software update  
+Software and PI update  
 ```
 $sudo apt-get update
-$sudo apt-get upgrade -y
+$sudo apt-get dist-upgrade -y
+$sudo rpi-update
 ```
 
 Filesystem (TMPFS) om de SDCARD te ontlasten  
