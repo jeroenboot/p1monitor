@@ -242,6 +242,16 @@ create database "p1data"
 *Python wordt gebruikt om daadwerkelijk de data van de P1 naar de influxdb te sturen.  
 Deze informatie draait in een (micro)service, zie: https://github.com/jeroenboot/p1monitor/blob/master/p1serial_docker/README.md*
 
+Een alternatief is het python script (p1influxdb.py) uitvoeren via de crontab:
+```
+* * * * * /home/pi/p1/p1influxdb.py >/dev/null 2&1
+* * * * * ( sleep 10 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
+* * * * * ( sleep 20 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
+* * * * * ( sleep 30 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
+* * * * * ( sleep 40 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
+* * * * * ( sleep 50 ; /home/pi/p1/p1influxdb.py >/dev/null 2>&1 )
+```
+
 **13. influxDB koppelen aan Grafana**  
 ![influxdb](https://user-images.githubusercontent.com/23233001/66252526-2cbbf100-e75d-11e9-95ce-bc2cb55117ac.png)
 
